@@ -7,25 +7,15 @@ import CircularProgress from '@/components/circular-progress/CircularProgress';
 import OnDarkLogo from '@/components/logos/OnDarkLogo';
 import NextImage from '@/components/NextImage';
 
-import { useWeb3Context } from '@/contexts/Web3';
-import Authentication from '@/features/auth/Authentication';
 import QuizContextProvider from '@/features/Game/contexts/QuizContext';
 import TabsContextProvider from '@/features/Game/contexts/TabsContext';
 import Game from '@/features/Game/Game';
 
 import { Platform } from '../constants/types';
-
-/**
- * SVGR Support
- * Caveat: No React Props Type.
- *
- * They type was override in additional.d.ts
- * @see https://stackoverflow.com/questions/68103844/how-to-override-next-js-svg-module-declaration
- */
+import Authentication from '@/features/auth/Authentication';
 
 export default function HomePage() {
-  const { user } = useWeb3Context();
-  const [loginReady, setLoginReady] = useState(false);
+  const [loginReady, setLoginReady] = useState(true);
   // used to avoid hydration failed due to server side rendering
   const [platform, setPlatform] = useState<Platform | undefined>(undefined);
 
@@ -34,13 +24,9 @@ export default function HomePage() {
   }, []);
 
   useEffect(() => {
-    if (!Capacitor.isNativePlatform()) {
-      /* Due to bad browser performance preloading images, a timeout is used instead to still show the loading screen.
-      Check https://github.com/vercel/next.js/pull/19118 */
-      setTimeout(() => {
-        setLoginReady(true);
-      }, 2800);
-    }
+    setTimeout(() => {
+      setLoginReady(true);
+    }, 2800);
   }, []);
 
   const renderPage = () => {
@@ -49,16 +35,16 @@ export default function HomePage() {
     }
     // Native platforms can't have gifs as loading screens
     if (loginReady || ['ios', 'android'].includes(platform ?? '')) {
-      if (user.magic.loggedIn || user.fcl.loggedIn) {
+      if (true) {
         return (
           <QuizContextProvider>
             <TabsContextProvider>
+              {/* <Authentication /> */}
               <Game />
             </TabsContextProvider>
           </QuizContextProvider>
         );
       }
-      return <Authentication />;
     } else {
       return loading();
     }

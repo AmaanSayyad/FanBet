@@ -8,6 +8,7 @@ import Loading from '@/components/SVGs/Loading';
 import { useWeb3Context } from '@/contexts/Web3';
 import Dialog from '@/dialog/Dialog';
 import DialogTitle from '@/dialog/DialogTitle';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 type Props = {
   setSelectedAuth: React.Dispatch<
@@ -17,22 +18,11 @@ type Props = {
 
 export default function Login({ setSelectedAuth }: Props) {
   const [email, setEmail] = useState('');
-
-  const { magicConnect, fclConnect } = useWeb3Context();
-
   const [showDialog, setShowDialog] = useState(false);
-
-  const handleSignIn = (
-    e: React.FormEvent<HTMLFormElement> & { target: { value: string } }
-  ) => {
-    e.preventDefault();
-    magicConnect({ email });
-    setShowDialog(true);
-  };
 
   return (
     <>
-      <form onSubmit={handleSignIn} className='flex h-full flex-col'>
+      <form className='flex h-full flex-col'>
         <OnDarkLogo />
         <div>
           <NextImage
@@ -48,14 +38,7 @@ export default function Login({ setSelectedAuth }: Props) {
                 <span className='h2 text-center text-xl font-normal text-primary-500'>
                   👋 Register Now
                 </span>
-                <Button
-                  variant='outlined-shadow'
-                  size='lg'
-                  className='mt-8'
-                  onClick={() => fclConnect()}
-                >
-                  Connect Wallet
-                </Button>
+                <ConnectButton />
                 <span className='mt-6'>Or use email </span>
                 <input
                   className='mt-6 w-full rounded-full py-3.5 px-4 text-black hover:border-primary-500'

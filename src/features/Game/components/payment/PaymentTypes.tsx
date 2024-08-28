@@ -1,5 +1,4 @@
 import { Tab } from '@headlessui/react';
-import * as fcl from '@onflow/fcl';
 import React, { useCallback, useEffect, useState } from 'react';
 import { AiFillStar } from 'react-icons/ai';
 import { BsCalendarCheck } from 'react-icons/bs';
@@ -16,41 +15,18 @@ import RadioOption from '@/components/radio/RadioOption';
 import TabGroup from '@/components/tabs/TabGroup';
 import TabPanel from '@/components/tabs/TabPanel';
 import TabPanels from '@/components/tabs/TabPanels';
-
-import { testnetConfig } from '@/constants/FCL-config';
+import { useQuizContext } from '@/features/Game/contexts/QuizContext';
 import Dialog from '@/dialog/Dialog';
 import { paymentTypes } from '@/features/Game/constants/paymentTypes';
 import { addressFormatter } from '@/features/Game/lib/addressFormatter';
-
-import { useWeb3Context } from '../../../../contexts/Web3';
-
+import { useAccount } from 'wagmi';
 const PaymentTypes = () => {
   const [selected, setSelected] = useState(0);
-  const { user } = useWeb3Context();
   const [userBalance, setUserBalance] = useState<number | undefined>();
   const [copiedNotification, setCopiedNotification] = useState(false);
-
-  fcl.config(testnetConfig);
-
-  const getUserBalance = useCallback(async () => {
-    const userObject = await fcl
-      .send([
-        fcl.getAccount(
-          user.magic.addr !== ''
-            ? user.magic.addr
-            : user.fcl.addr !== ''
-            ? user.fcl.addr
-            : ''
-        ),
-      ])
-      .then(fcl.decode);
-    setUserBalance(userObject.balance ?? 0);
-  }, [user.fcl.addr, user.magic.addr]);
-
-  useEffect(() => {
-    getUserBalance();
-  }, [getUserBalance]);
-
+  const { address } = useAccount();
+  const { userTokenBalance, userDepositedBalance, poolBalance } =
+    useQuizContext();
   const handleCopy = () => {
     setCopiedNotification(true);
     setTimeout(() => {
@@ -90,9 +66,6 @@ const PaymentTypes = () => {
                         className='relative h-6 w-6'
                         imgClassName='object-contain'
                       />
-                      <span className='text-2xl text-gray-400'>
-                        <AiFillStar />
-                      </span>
                     </div>
                     <div className='mt-auto h-full text-black'>
                       <span className='block text-sm font-bold'>
@@ -120,27 +93,17 @@ const PaymentTypes = () => {
                   size='base'
                   className='w-full px-5 py-3 text-white'
                   onClick={() => {
-                    navigator.clipboard.writeText(
-                      user.magic.addr !== ''
-                        ? user.magic.addr
-                        : user.fcl.addr !== ''
-                        ? user.fcl.addr
-                        : 'no address detected'
-                    );
+                    navigator.clipboard.writeText(address);
                     handleCopy();
                   }}
                 >
                   <span className='mx-auto w-full'>
-                    {user.magic.addr !== ''
-                      ? addressFormatter(user.magic.addr)
-                      : user.fcl.addr !== ''
-                      ? addressFormatter(user.fcl.addr)
-                      : 'no address detected'}
+                    {addressFormatter(address)}
                   </span>
                 </Button>
               </div>
               <div className='grid grid-cols-2  items-center justify-between gap-2'>
-                <span className='text-sm'>Amount($)</span>
+                <span className='text-sm'>Balance (FBT)</span>
                 <Button
                   variant='outline'
                   rightIcon={RxCopy}
@@ -148,24 +111,19 @@ const PaymentTypes = () => {
                   size='base'
                   className='w-full px-5 py-3 text-white'
                   onClick={() => {
-                    navigator.clipboard.writeText(
-                      userBalance?.toString() ?? ''
-                    );
+                    navigator.clipboard.writeText('120');
                     handleCopy();
                   }}
                 >
                   {/* The flow token has 9 decimals*/}
-                  <span className='mx-auto w-full'>
-                    {userBalance === undefined
-                      ? 'Loading...'
-                      : userBalance / 100000000}
-                  </span>
+                  <span className='mx-auto w-full'>2.1673 USC</span>
                 </Button>
               </div>
+              <h2 className='!h1'>Total Invested : {userDepositedBalance}</h2>
               <Button
                 variant='outline'
                 size='lg'
-                className='!mt-12 mobile-m:!mt-20'
+                className='!mt-2 mobile-m:!mt-10'
               >
                 Deposit
               </Button>

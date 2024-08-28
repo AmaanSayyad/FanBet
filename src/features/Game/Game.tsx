@@ -2,7 +2,8 @@ import { Capacitor } from '@capacitor/core';
 import { Tab } from '@headlessui/react';
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
-
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { useAccount, usePublicClient, useNetwork } from 'wagmi';
 import Carousel from '@/components/carousel/Carousel';
 import Menu from '@/components/menu/Menu';
 import Profile from '@/components/profiles/Profile';
@@ -27,12 +28,14 @@ import { tierQuizzes } from './constants/quizzes';
 import TextField from '../../components/inputs/TextField';
 
 const Game = () => {
+  const { account } = useAccount();
   const {
     setActiveStep: setActiveQuizStep,
     setPreQuestions,
     setQuestions,
     setActiveQuiz,
     activeQuiz,
+    depositFunds,
   } = useQuizContext();
   const [showInviteFriends, setShowInviteFriends] = useState(false);
   const { selectedTab } = useTabsContext();
@@ -130,6 +133,7 @@ const Game = () => {
               })}
             </Tab.List>
           )}
+          <ConnectButton />{' '}
           <TabPanel className='space-y-9'>
             <div>
               <h2>Trending Quiz Bets</h2>

@@ -14,7 +14,7 @@ type Props = {
 } & React.ComponentPropsWithRef<'div'>;
 
 const NFTThumbnail = ({ NFTFlowId, showPrice, className, ...rest }: Props) => {
-  const { NFTInfo, setNFTInfo } = useQuizContext();
+  const { NFTInfo, setNFTInfo, poolBalance } = useQuizContext();
 
   useEffect(() => {
     setNFTInfo({
@@ -64,17 +64,11 @@ const NFTThumbnail = ({ NFTFlowId, showPrice, className, ...rest }: Props) => {
                   !NFTInfo?.NFTTotalPrice && 'text-sm',
                 ])}
               >
-                {NFTInfo.NFTId
-                  ? NFTInfo.NFTTotalPrice
-                    ? parseInt(
-                        NFTInfo.NFTTotalPrice.split('.')[0]
-                      ).toLocaleString()
-                    : 'NOT FOR SALE'
-                  : 'loading...'}
+                {poolBalance ? Number(poolBalance).toFixed(2) : 'loading...'}
               </span>
               {NFTInfo?.NFTTotalPrice ? (
                 <div className='my-auto text-[10px]'>
-                  <span className='block'>FLOW</span>
+                  <span className='block'>FBT</span>
                   <span>Avg Sale</span>
                 </div>
               ) : null}

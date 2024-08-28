@@ -12,9 +12,18 @@ import NFTThumbnail from '@/features/Game/components/Quiz/NFTThumbnail';
 import { useQuizContext } from '@/features/Game/contexts/QuizContext';
 
 const PostQuestions = () => {
-  const { preQuestions, reset } = useQuizContext();
+  const {
+    preQuestions,
+    reset,
+    depositFunds,
+    userTokenBalance,
+    userDepositedBalance,
+    poolBalance,
+    withdrawlFunds,
+  } = useQuizContext();
 
-  const handleQuizDone = () => {
+  const handleQuizDone = async () => {
+    await withdrawlFunds(399, 1);
     reset();
   };
 
@@ -57,7 +66,7 @@ const PostQuestions = () => {
         variant='outline'
         className='mt-8 py-5'
       >
-        Done
+        Claim Reward
       </Button>
     </div>
   );

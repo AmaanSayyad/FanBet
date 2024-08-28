@@ -15,8 +15,12 @@ import Currency from '@/features/Game/components/currency/Currency';
 import InputSvg from '@/features/Game/components/payment/InputSVG';
 import OutputSVG from '@/features/Game/components/payment/OutputSVG';
 import PaymentTypes from '@/features/Game/components/payment/PaymentTypes';
+import { useQuizContext } from '@/features/Game/contexts/QuizContext';
 
 const Payment = () => {
+  const { userTokenBalance,
+    userDepositedBalance,
+    poolBalance, } = useQuizContext();
   return (
     <div>
       {Capacitor.getPlatform() == 'ios' ? (
@@ -61,8 +65,8 @@ const Payment = () => {
         </div>
       ) : (
         <div className='text-gradient-primary mt-10 flex items-center justify-center gap-2'>
-          <h2 className='!h1'>$12,58</h2>
-          <span>FLOW</span>
+          <h2 className='!h1'>{userTokenBalance}</h2>
+          <span>FBT</span>
         </div>
       )}
       <TabGroup>

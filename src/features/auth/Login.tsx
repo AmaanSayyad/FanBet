@@ -8,6 +8,7 @@ import Loading from '@/components/SVGs/Loading';
 import { useWeb3Context } from '@/contexts/Web3';
 import Dialog from '@/dialog/Dialog';
 import DialogTitle from '@/dialog/DialogTitle';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 type Props = {
   setSelectedAuth: React.Dispatch<
@@ -48,14 +49,7 @@ export default function Login({ setSelectedAuth }: Props) {
                 <span className='h2 text-center text-xl font-normal text-primary-500'>
                   👋 Login
                 </span>
-                <Button
-                  variant='outlined-shadow'
-                  size='lg'
-                  className='mt-8'
-                  onClick={() => fclConnect()}
-                >
-                  Connect Wallet
-                </Button>
+                <ConnectButton />
                 <span className='mt-6'>Or use email </span>
                 <input
                   className='mt-3 w-full rounded-full py-3.5 px-4 text-black hover:border-primary-500'

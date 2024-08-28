@@ -9,6 +9,7 @@ import PercentageBar from '@/components/percentages/PercentageBar';
 
 import { NFTMedia } from '@/features/Game/constants/NFTs';
 import { NFTInfo } from '@/features/Game/types/Types';
+import { useQuizContext } from '@/features/Game/contexts/QuizContext';
 
 type Props = {
   setShowNFTPreview: React.Dispatch<React.SetStateAction<boolean>>;
@@ -19,7 +20,7 @@ const NFTPreview = ({ NFTFlowId, setShowNFTPreview }: Props) => {
   const [showInfo, setShowInfo] = useState(false);
 
   const [NFTInfo, setNFTInfo] = useState<NFTInfo | undefined>();
-
+  const { poolBalance } = useQuizContext();
   //#region  //*=========== video state ===========
   const videoRef: React.MutableRefObject<HTMLVideoElement | null> =
     useRef(null);
@@ -139,16 +140,10 @@ const NFTPreview = ({ NFTFlowId, setShowNFTPreview }: Props) => {
             </div>
             <div className='flex items-center gap-1'>
               <span className='text-3xl font-bold'>
-                {NFTInfo
-                  ? NFTInfo.NFTTotalPrice
-                    ? parseInt(
-                        (+NFTInfo?.NFTTotalPrice.split('.')[0]).toLocaleString()
-                      )
-                    : 'Not for sale'
-                  : 'Loading...'}
+                {poolBalance ? Number(poolBalance).toFixed(2) : 'Loading...'}
               </span>
               <div className='text-[10px]'>
-                <span className='block'>FLOW</span>
+                <span className='block'>FBT</span>
                 <span>Avg. Sale</span>
               </div>
             </div>

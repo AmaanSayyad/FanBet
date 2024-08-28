@@ -8,6 +8,7 @@ import clsxm from '@/lib/clsxm';
 
 import { NFTMedia } from '@/features/Game/constants/NFTs';
 import { NFTInfo } from '@/features/Game/types/Types';
+import { useQuizContext } from '@/features/Game/contexts/QuizContext';
 
 type Props = {
   className?: string;
@@ -17,7 +18,7 @@ type Props = {
 
 const NFTThumbnail = ({ NFTFlowId, showPrice, className, ...rest }: Props) => {
   const [NFTInfo, setNFTInfo] = useState<NFTInfo | undefined>();
-
+  const { poolBalance } = useQuizContext();
   const getNFTFlowIdInfo = useCallback(async () => {
     try {
       const apiEndpoint = '/api/graphql/minted-moment';
@@ -87,17 +88,11 @@ const NFTThumbnail = ({ NFTFlowId, showPrice, className, ...rest }: Props) => {
                   !NFTInfo?.NFTTotalPrice && 'text-sm',
                 ])}
               >
-                {NFTInfo
-                  ? NFTInfo.NFTTotalPrice
-                    ? parseInt(
-                        NFTInfo.NFTTotalPrice.split('.')[0]
-                      ).toLocaleString()
-                    : 'NOT FOR SALE'
-                  : 'loading...'}
+                {poolBalance ? Number(poolBalance).toFixed(2) : 'loading...'}
               </span>
               {NFTInfo?.NFTTotalPrice ? (
                 <div className='my-auto text-[10px]'>
-                  <span className='block'>FLOW</span>
+                  <span className='block'>FBT</span>
                   <span>Avg Sale</span>
                 </div>
               ) : null}

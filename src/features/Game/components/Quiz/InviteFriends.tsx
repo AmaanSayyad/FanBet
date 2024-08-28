@@ -8,6 +8,7 @@ import NextImage from '@/components/NextImage';
 
 import QRCodeInvitation from '@/features/Game/components/qr-code-invitation/QRCodeInvitation';
 import { friends } from '@/features/Game/constants/friends';
+import { useQuizContext } from '@/features/Game/contexts/QuizContext';
 
 type Props = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -15,7 +16,7 @@ type Props = {
 
 const InviteFriends = ({ setOpen }: Props) => {
   const [showQrCodeInvitation, setShowQrCodeInvitation] = useState(false);
-
+  const { makeRefferal } = useQuizContext();
   const main = () => {
     return (
       <div>
@@ -43,7 +44,13 @@ const InviteFriends = ({ setOpen }: Props) => {
                   Invited
                 </Button>
               ) : (
-                <Button size='base' className='w-max'>
+                <Button
+                  onClick={async () => {
+                    await makeRefferal();
+                  }}
+                  size='base'
+                  className='w-max'
+                >
                   Invite
                 </Button>
               )}

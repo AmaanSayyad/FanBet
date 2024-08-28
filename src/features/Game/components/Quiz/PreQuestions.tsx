@@ -110,7 +110,7 @@ const PreQuestions = () => {
                       : "Can't calculate"
                     : 'Loading...'}
                 </span>
-                <span className='text-[10px]'>{NFTInfo && 'FLOW'}</span>
+                <span className='text-[10px]'>{NFTInfo && 'FBT'}</span>
               </div>
             </div>
 

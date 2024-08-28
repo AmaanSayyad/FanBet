@@ -16,9 +16,10 @@ type Props = {
 };
 
 const NFTPreview = ({ setShowNFTPreview }: Props) => {
-  const { preQuestions, setActiveStep, NFTInfo } = useQuizContext();
+  const { preQuestions, setActiveStep, NFTInfo, depositFunds, poolBalance } =
+    useQuizContext();
   const [showInfo, setShowInfo] = useState(false);
-
+  const [makeBet, setMakeBet] = useState(0);
   //#region  //*=========== video state ===========
   const videoRef: React.MutableRefObject<HTMLVideoElement | null> =
     useRef(null);
@@ -26,9 +27,12 @@ const NFTPreview = ({ setShowNFTPreview }: Props) => {
   const [currentTime, setCurrentTime] = useState(0);
   //#endregion  //*======== video state ===========
 
-  const handleBetClick = () => {
-    setActiveStep('questions');
+  const handleBetClick = async (amount) => {
+    await depositFunds(amount, 1);
     setShowNFTPreview(false);
+  };
+  const handleMakeBet = (e) => {
+    setMakeBet(e.target.value);
   };
 
   return (
@@ -89,16 +93,10 @@ const NFTPreview = ({ setShowNFTPreview }: Props) => {
             <div className='flex w-full items-center justify-between'>
               <div className='flex items-center gap-1'>
                 <span className='text-3xl font-bold'>
-                  {NFTInfo
-                    ? NFTInfo.NFTTotalPrice
-                      ? parseInt(
-                          NFTInfo?.NFTTotalPrice.split('.')[0]
-                        ).toLocaleString()
-                      : "Can't calculate"
-                    : 'Loading...'}
+                  {poolBalance ? Number(poolBalance).toFixed(2) : 'loading...'}
                 </span>
                 <div className='text-[10px]'>
-                  <span className='block'>FLOW</span>
+                  <span className='block'>FBT</span>
                   <span>Avg. Sale</span>
                 </div>
               </div>
@@ -117,22 +115,22 @@ const NFTPreview = ({ setShowNFTPreview }: Props) => {
             </div>
             <div className='grid grid-cols-2 items-center justify-between gap-4 '>
               <p className='text-2xs'>{NFTInfo.NFTDescription}</p>
-              <div className='w-full items-center rounded-full bg-gradient-primary py-1.5 px-2.5 text-black'>
+              <div className='w-full items-center rounded-full bg-gradient-primary py-1.5 px-1.5 text-black'>
                 <div className='col-span-3 flex w-full flex-col justify-center'>
-                  <span className='mx-auto text-sm'>Max Bet:</span>
-                  <div className='mx-auto flex items-center'>
-                    <span className='h3 whitespace-nowrap'>
-                      {NFTInfo.maxBet}
-                    </span>
-                    <span className='text-2xs'>FLOW</span>
-                  </div>
+                  <input
+                    placeholder='Enter Bet'
+                    name='bet'
+                    type='number'
+                    className='rounded-full px-3 py-3'
+                    onChange={handleMakeBet}
+                  />
                 </div>
               </div>
             </div>
             <Button
               variant='dark'
               size='lg'
-              onClick={() => handleBetClick()}
+              onClick={() => handleBetClick(makeBet)}
               className='!mt-8'
             >
               Enter to Pool Bet
