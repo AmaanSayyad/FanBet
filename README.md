@@ -21,7 +21,7 @@ Our mission with FanBet is clear:
 
 - **Immersive Gameplay:** Utilize AIGC to create gaming experiences that are more immersive and dynamic than ever before.
 
-- **Trust and Security:** Leverage blockchain technology to ensure trust, transparency, and security for all gaming interactions.
+- **Trust and Security:** Leverage ICP blockchain technology to ensure trust, transparency, and security for all gaming interactions.
 
 - **Content Generation:** Provide game developers with cutting-edge AI tools for content generation, enabling diverse and captivating gaming experiences.
 
@@ -31,7 +31,7 @@ Our mission with FanBet is clear:
 
 - **AIGC Integration:** FanBet incorporates advanced AIGC techniques to generate dynamic in-game content, making every interaction engaging and unique.
 
-- **Blockchain Infrastructure:** FanBet is built on top of the Flow blockchain & now supports UBIT blockchain too, ensuring scalability and transparency for all in-game transactions and asset ownership.
+- **Blockchain Infrastructure:** FanBet is built on top of the ICP blockchain & now supports UBIT blockchain too, ensuring scalability and transparency for all in-game transactions and asset ownership.
 
 - **Smart Contracts:** Trust is guaranteed through smart contracts that govern gaming rules, bets, and reward distributions.
 
@@ -39,6 +39,7 @@ Our mission with FanBet is clear:
 
 ## Technologies Used
 
+- ICP Blockchain
 - Flow Blockchain
 - UBIT Blockchain
 - Artificial Intelligence (AIGC)
